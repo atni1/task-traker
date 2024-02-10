@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+}
+
+body {
+  margin: 0 auto;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  color: #2c3e50;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+}
+
+#app {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 178px);
+  gap: 8px;
+  margin: 50px;
+  height: 596px;
+}
+
+.column {
+  border-radius: 8px;
+  background: #F7F7F7;
+  border: 1px solid #E3E5E8;
+}
+
+.button-reset {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}

@@ -1,0 +1,88 @@
+<template>
+  <form
+    @submit.prevent="addTask"
+    @reset.prevent="resetField"
+    class="form-filed"
+  >
+    <textarea
+      class="task-text"
+      ref="textareaRef"
+      v-model="text"
+      placeholder="Введите текст..."
+      autofocus
+    ></textarea>
+    <button type="reset" class="reset button-reset">
+      <svg-close :color="'#F53D5C'" />
+    </button>
+    <button type="submit" class="add button-reset">
+      <svg-check-mark />
+    </button>
+  </form>
+</template>
+
+<script setup>
+import SvgClose from "@/components/svg/SvgClose.vue";
+import SvgCheckMark from "@/components/svg/SvgCheckMark.vue";
+import { ref, onMounted, nextTick, defineProps } from "vue";
+import { useTaskStore } from "@/store/store";
+
+const props = defineProps({
+  colId: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
+
+const store = useTaskStore();
+
+const text = ref("");
+const textareaRef = ref(null);
+
+onMounted(async () => {
+  await nextTick();
+  if (textareaRef.value) {
+    textareaRef.value.focus();
+  }
+});
+
+const resetField = () => {
+  console.log("resetttt");
+  text.value = "";
+  store.showAddField = false;
+};
+
+const addTask = () => {
+  store.addTask(text.value, props.colId);
+};
+</script>
+
+<style lang="scss" scoped>
+.form-filed {
+  position: relative;
+  .reset {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+  }
+  .add {
+    position: absolute;
+    bottom: 8px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.task-text {
+  height: 52px;
+  resize: none;
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  outline-color: #3d86f4;
+  font-size: 14px;
+}
+</style>
