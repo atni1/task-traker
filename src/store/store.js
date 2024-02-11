@@ -63,7 +63,7 @@ export const useTaskStore = defineStore('task', () => {
 
   ])
 
-  const showAddField = ref(false)
+  const task = ref()
 
   const filterStatus = computed(() => {
     return (status) => tasks.value.filter(el => el.status === status)
@@ -80,5 +80,15 @@ export const useTaskStore = defineStore('task', () => {
     console.log('new tasks arr', tasks.value);
   }
 
-  return { tasks, columns, showAddField, filterStatus, addTask }
+  const deleteTask = (idx) => {
+    tasks.value = tasks.value.filter(el => el.id !== idx)
+    console.log('task delet', tasks.value);
+  }
+
+  const findTask = (idx) => {
+    task.value = tasks.value.find(el => el.id === idx)
+    console.log('findTask', task.value);
+  }
+
+  return { tasks, columns, task, filterStatus, addTask, deleteTask, findTask }
 })

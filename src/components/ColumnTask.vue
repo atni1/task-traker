@@ -6,9 +6,7 @@
     <li v-for="task in filteredTask" :key="task.id">
       <div class="task">
         {{ task.text }}
-        <button class="button-reset details">
-          <img src="@/assets/images/details.svg" alt="details" />
-        </button>
+        <actions-dropdown :task="task" @action="handelAction" />
       </div>
     </li>
     <button
@@ -19,14 +17,22 @@
       <img src="@/assets/images/add-plus.svg" alt="plus" />
       Добавить
     </button>
-    <task-add-field :colId="column.id" v-if="showAddField" />
+    <task-add-field
+      :colId="column.id"
+      v-if="showAddField"
+      @addTask="handelAdd"
+      @resetField="handelReset"
+    />
   </ul>
+  <modal-delete-task v-if="showModalDelete" @deleteTask="handelDelete" @close="handelClose"/>
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import { useTaskStore } from "@/store/store";
 import TaskAddField from "./TaskAddField.vue";
+import ActionsDropdown from "@/components/modules/ActionsDropdown.vue";
+import ModalDeleteTask from "@/components/modal/ModalDeleteTask.vue"
 
 const props = defineProps({
   col: {
@@ -37,10 +43,40 @@ const props = defineProps({
 });
 const store = useTaskStore();
 const column = ref(props.col);
+const filteredTask = ref([]);
+const showAddField = ref(false);
+const showModalDelete = ref(false)
 
-const filteredTask = store.filterStatus(column.value.id);
+onMounted(() => {
+  filteredTask.value = store.filterStatus(column.value.id);
+});
 
-const showAddField = ref(store.showAddField);
+const handelAdd = (el) => {
+  filteredTask.value = store.filterStatus(column.value.id);
+  showAddField.value = el;
+};
+
+const handelReset = (el) => {
+  showAddField.value = el;
+};
+
+const handelAction = (task, select) => {
+  console.log('action!!!', select);
+  if (select === "delete") {
+    store.findTask(task.id)
+    showModalDelete.value = true
+  }
+};
+
+const handelDelete = (task) => {
+  store.deleteTask(task.id)
+  filteredTask.value = store.filterStatus(column.value.id);
+  showModalDelete.value = false
+}
+
+const handelClose = () => {
+  showModalDelete.value = false
+}
 </script>
 
 <style lang="scss" scoped>
@@ -57,6 +93,8 @@ const showAddField = ref(store.showAddField);
   gap: 8px;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
   .task {
     border: 1px solid #c4cad4;
     background: #ffffff;

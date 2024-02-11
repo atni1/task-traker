@@ -23,7 +23,7 @@
 <script setup>
 import SvgClose from "@/components/svg/SvgClose.vue";
 import SvgCheckMark from "@/components/svg/SvgCheckMark.vue";
-import { ref, onMounted, nextTick, defineProps } from "vue";
+import { ref, onMounted, nextTick, defineProps, defineEmits } from "vue";
 import { useTaskStore } from "@/store/store";
 
 const props = defineProps({
@@ -36,6 +36,8 @@ const props = defineProps({
 
 const store = useTaskStore();
 
+const emit = defineEmits(['addTask'], ['resetField'])
+
 const text = ref("");
 const textareaRef = ref(null);
 
@@ -47,13 +49,13 @@ onMounted(async () => {
 });
 
 const resetField = () => {
-  console.log("resetttt");
   text.value = "";
-  store.showAddField = false;
+  emit('resetField', false)
 };
 
 const addTask = () => {
   store.addTask(text.value, props.colId);
+  emit('addTask', false)
 };
 </script>
 
@@ -80,9 +82,9 @@ const addTask = () => {
   height: 52px;
   resize: none;
   width: 100%;
-  padding: 8px;
+  padding: 8px 22px 8px 8px;
   border-radius: 4px;
   outline-color: #3d86f4;
-  font-size: 14px;
+  font-size: 13px;
 }
 </style>
