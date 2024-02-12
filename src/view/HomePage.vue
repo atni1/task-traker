@@ -10,6 +10,5 @@
 import { useTaskStore } from "@/store/store";
 import ColumnTask from "@/components/ColumnTask.vue";
 
-// const tasks = useTaskStore().tasks
 const columns = useTaskStore().columns;
 </script>

@@ -18,7 +18,6 @@
       Добавить
     </button>
     <task-add-field
-      :colId="column.id"
       v-if="showAddField"
       @addTask="handelAdd"
       @resetField="handelReset"
@@ -52,8 +51,11 @@ onMounted(() => {
 });
 
 const handelAdd = (el) => {
+  store.addTask(el, column.value.id);
   filteredTask.value = store.filterStatus(column.value.id);
-  showAddField.value = el;
+  showAddField.value = false;
+  const message = `создана в "${column.value.title}"`
+  store.addNotification(message, el)
 };
 
 const handelReset = (el) => {

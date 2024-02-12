@@ -64,6 +64,8 @@ export const useTaskStore = defineStore('task', () => {
   ])
 
   const task = ref()
+  const notifications = ref([])
+  let visibleNotification = ref(false)
 
   const filterStatus = computed(() => {
     return (status) => tasks.value.filter(el => el.status === status)
@@ -77,7 +79,9 @@ export const useTaskStore = defineStore('task', () => {
     }
     console.log('created task', task);
     tasks.value.push(task)
-    console.log('new tasks arr', tasks.value);
+    task.value = task
+    console.log('new tasks arr', tasks.value,);
+    console.log('new task', task.value);
   }
 
   const deleteTask = (idx) => {
@@ -90,5 +94,26 @@ export const useTaskStore = defineStore('task', () => {
     console.log('findTask', task.value);
   }
 
-  return { tasks, columns, task, filterStatus, addTask, deleteTask, findTask }
+  const addNotification = (msg, taskText) => {
+    const notify = {
+      id: Date.now().toLocaleString(),
+      message: msg,
+      text: taskText,
+    }
+    notifications.value.unshift(notify)
+    visibleNotification.value = true
+
+    // setTimeout(() => {
+    //   removeNotification(notify.id)
+    // }, 30000)
+  }
+  const removeNotification = (idx) => {
+    const index = notifications.value.map(el => el.id).indexOf(idx);
+    if (index !== -1) {
+      notifications.value.splice(index, 1);
+      visibleNotification.value = false
+    }
+  }
+
+  return { tasks, columns, task, notifications, filterStatus, addTask, deleteTask, findTask, addNotification, removeNotification, visibleNotification }
 })

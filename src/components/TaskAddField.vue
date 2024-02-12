@@ -23,18 +23,7 @@
 <script setup>
 import SvgClose from "@/components/svg/SvgClose.vue";
 import SvgCheckMark from "@/components/svg/SvgCheckMark.vue";
-import { ref, onMounted, nextTick, defineProps, defineEmits } from "vue";
-import { useTaskStore } from "@/store/store";
-
-const props = defineProps({
-  colId: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-});
-
-const store = useTaskStore();
+import { ref, onMounted, nextTick, defineEmits } from "vue";
 
 const emit = defineEmits(['addTask'], ['resetField'])
 
@@ -54,8 +43,7 @@ const resetField = () => {
 };
 
 const addTask = () => {
-  store.addTask(text.value, props.colId);
-  emit('addTask', false)
+  emit('addTask', text.value)
 };
 </script>
 
