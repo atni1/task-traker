@@ -89,10 +89,9 @@ export const useTaskStore = defineStore('task', () => {
     console.log('task delet', tasks.value);
   }
 
-  const findTask = (idx) => {
-    task.value = tasks.value.find(el => el.id === idx)
-    console.log('findTask', task.value);
-  }
+  const findTask = computed(() => {
+    return (idx) => tasks.value.find(el => el.id === idx)
+  })
 
   const addNotification = (msg, taskText) => {
     const notify = {
@@ -103,9 +102,9 @@ export const useTaskStore = defineStore('task', () => {
     notifications.value.unshift(notify)
     visibleNotification.value = true
 
-    // setTimeout(() => {
-    //   removeNotification(notify.id)
-    // }, 30000)
+    setTimeout(() => {
+      removeNotification(notify.id)
+    }, 30000)
   }
   const removeNotification = (idx) => {
     const index = notifications.value.map(el => el.id).indexOf(idx);
@@ -115,5 +114,15 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  return { tasks, columns, task, notifications, filterStatus, addTask, deleteTask, findTask, addNotification, removeNotification, visibleNotification }
+  const updateTaskStatus = (taskId, newStatus) => {
+    const task = tasks.value.find(task => task.id === taskId);
+    if (task) {
+      task.status = newStatus;
+    }
+    tasks.value.splice()
+    console.log('задача обновленная',task);
+    console.log('список задач',tasks.value);
+  }
+
+  return { tasks, columns, task, notifications, filterStatus, addTask, deleteTask, findTask, addNotification, removeNotification, visibleNotification, updateTaskStatus }
 })

@@ -2,8 +2,8 @@
   <div class="title" :style="{ 'background-color': column.color }">
     {{ column.title }}
   </div>
-  <ul class="column-container">
-    <li v-for="task in filteredTask" :key="task.id">
+  <ul class="column-container" ref="columnContainer" @dragover.prevent @drop="drop($event)">
+    <li v-for="task in filteredTask" :key="task.id" :draggable="true" @dragstart="dragStart(task, $event)" >
       <div class="task">
         {{ task.text }}
         <actions-dropdown :task="task" @action="handelAction" />
@@ -79,6 +79,28 @@ const handelDelete = (task) => {
 const handelClose = () => {
   showModalDelete.value = false
 }
+
+const dragStart = (task, event) => {
+  event.dataTransfer.setData('text/plain', task.id.toString())
+  console.log('dragStart', parseInt(event.dataTransfer.getData('text/plain')))
+}
+
+const drop = (event) => {
+  event.preventDefault();
+  const taskId = parseInt(event.dataTransfer.getData('text/plain'))
+  console.log('column.value.id' ,column.value.id);
+  const sourceTask = store.tasks.find(task => task.id === taskId)
+  console.log('sourceTask' , sourceTask);
+  if (sourceTask && sourceTask.status !== column.value.id) {
+    store.updateTaskStatus(sourceTask.id, column.value.id)
+    filteredTask.value = store.filterStatus(column.value.id)
+  }
+}
+
+// const dragover = (event) => {
+//   event.preventDefault();
+//   event.dataTransfer.dropEffect = "move";
+// }
 </script>
 
 <style lang="scss" scoped>

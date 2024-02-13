@@ -48,7 +48,7 @@ const hideNotification = (idx) => {
 <style lang="scss" scoped>
 .notification {
   position: fixed;
-  bottom: 0;
+  bottom: 25px;
   right: 25px;
   z-index: 10;
   &__messages_list {
@@ -62,16 +62,15 @@ const hideNotification = (idx) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
     background: #ffffff;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.06);
     width: 400px;
-    height: 76px;
+    min-height: 76px;
 
     &::before {
       content: '';
       width: 8px;
-      height: 76px;
+      height: 100%;
       background: #22C33D;
       border-radius: 4px 0 0 4px;
       position: absolute;
@@ -88,7 +87,8 @@ const hideNotification = (idx) => {
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      width: 24px;
+      min-width: 24px;
+      max-width: 24px;
       height: 24px;
       background: #22C33D;
     }
