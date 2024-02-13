@@ -34,7 +34,7 @@ const closeModal = () => {
 };
 
 const deleteTask = () => {
-  emit("deleteTask", store.task);
+  emit("deleteTask", store.oneTask);
 };
 </script>
 

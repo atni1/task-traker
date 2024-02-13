@@ -51,14 +51,16 @@ const hideNotification = (idx) => {
   bottom: 25px;
   right: 25px;
   z-index: 10;
-  &__messages_list {
+  .messages_list {
     display: flex;
     flex-direction: column;
+    gap: 25px;
   }
   &__content {
     padding: 16px 16px 16px 24px;
     border-radius: 4px;
     border: 1px solid #E3E5E8;
+    border-left: 8px solid #22C33D;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -66,16 +68,6 @@ const hideNotification = (idx) => {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.06);
     width: 400px;
     min-height: 76px;
-
-    &::before {
-      content: '';
-      width: 8px;
-      height: 100%;
-      background: #22C33D;
-      border-radius: 4px 0 0 4px;
-      position: absolute;
-      left: 0;
-    }
   }
   .content {
     display: flex;

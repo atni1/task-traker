@@ -7,6 +7,7 @@
     <textarea
       class="task-text"
       ref="textareaRef"
+      minlength="2"
       v-model="text"
       placeholder="Введите текст..."
       autofocus
@@ -74,5 +75,10 @@ const addTask = () => {
   border-radius: 4px;
   outline-color: #3d86f4;
   font-size: 13px;
+
+}
+
+.task-text::-webkit-scrollbar {
+  display: none;
 }
 </style>

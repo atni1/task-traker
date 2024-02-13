@@ -8,6 +8,8 @@
         v-for="(option, index) in options"
         :key="index"
         @click="selectOption(option)"
+        :disabled="option.disabled"
+        :class="{'disabled': option.disabled}"
       >
         <img :src="option.img" alt="" srcset="" />
         {{ option.text }}
@@ -26,11 +28,13 @@ const options = ref([
     value: "edit",
     text: "Редактировать",
     img: require("@/assets/images/edit.svg"),
+    disabled: true
   },
   {
     value: "delete",
     text: "Удалить",
     img: require("@/assets/images/delete.svg"),
+    disabled: false
   },
 ])
 const props = defineProps({
@@ -46,7 +50,6 @@ const toggleDropdown = () => {
 }
 
 const selectOption = (option) => {
-  console.log('action', props.task, option.value);
   emit('action', props.task, option.value)
   isOpen.value = false;
 }
@@ -85,5 +88,9 @@ const selectOption = (option) => {
   align-items: center;
   gap: 8px;
   font-style: 14px;
+}
+
+.disabled {
+  opacity: 0.5;
 }
 </style>
