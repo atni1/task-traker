@@ -3,13 +3,14 @@
     <div v-if="store.visibleNotification" class="notification">
       <transition-group name="transition-animate" tag="ul" class="messages_list">
         <li
-          class="notification__content"
+          :class="`notification__content${notify.valid?'':'__danger'}`"
           v-for="notify in notifications"
           :key="notify.id"
         >
           <div class="content">
-            <div class="content__check-mark">
-              <svg-check-mark :color="'#ffffff'" />
+            <div :class="`content__check-mark${notify.valid?'':'__danger'}`">
+              <svg-check-mark v-if="notify.valid" :color="'#ffffff'" />
+              <svg-close v-else :color="'#ffffff'" /> 
             </div>
             <div class="content__info">
               <h3 class="content__title">Задача {{ notify.message }}</h3>
@@ -56,7 +57,7 @@ const hideNotification = (idx) => {
     flex-direction: column;
     gap: 25px;
   }
-  &__content {
+  &__content, &__content__danger {
     padding: 16px 16px 16px 24px;
     border-radius: 4px;
     border: 1px solid #E3E5E8;
@@ -68,13 +69,16 @@ const hideNotification = (idx) => {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.06);
     width: 400px;
     min-height: 76px;
+    &__danger {
+      border-left: 8px solid #e01335;
+    }
   }
   .content {
     display: flex;
     align-items: flex-start;
     gap: 16px;
     
-    &__check-mark {
+    &__check-mark, &__check-mark__danger {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -83,6 +87,9 @@ const hideNotification = (idx) => {
       max-width: 24px;
       height: 24px;
       background: #22C33D;
+      &__danger { 
+        background: #e01335;
+      }
     }
     &__info {
       display: flex;

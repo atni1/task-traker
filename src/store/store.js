@@ -60,11 +60,12 @@ export const useTaskStore = defineStore('task', () => {
     updateColumnTasks()
   }
 
-  const addNotification = (msg, taskText) => {
+  const addNotification = (msg, taskText, valid) => {
     const notify = {
       id: Date.now().toLocaleString(),
       message: msg,
       text: taskText,
+      valid: valid ?? true,
     }
     notifications.value.unshift(notify)
     visibleNotification.value = true

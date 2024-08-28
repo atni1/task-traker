@@ -25,6 +25,9 @@
 import SvgClose from "@/components/svg/SvgClose.vue";
 import SvgCheckMark from "@/components/svg/SvgCheckMark.vue";
 import { ref, onMounted, nextTick, defineEmits } from "vue";
+import { useTaskStore } from "@/store/store";
+
+const store = useTaskStore();
 
 const emit = defineEmits(['addTask'], ['resetField'])
 
@@ -44,7 +47,11 @@ const resetField = () => {
 };
 
 const addTask = () => {
-  emit('addTask', text.value)
+  if (text.value.length > 4) {
+    emit('addTask', text.value)
+  } else {
+    store.addNotification('не создана', 'Описание задачи слишком короткое', false)
+  }
 };
 </script>
 
